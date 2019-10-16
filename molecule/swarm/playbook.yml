@@ -1,6 +1,6 @@
 ---
 
-- name: "Provision a Docker Swarm cluster"
+- name: Provision a Docker Swarm cluster
   hosts: all
   roles:
     - { role: ansible-dockerswarm }

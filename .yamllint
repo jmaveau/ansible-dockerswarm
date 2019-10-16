@@ -1,8 +1,8 @@
 extends: default
 
 rules:
-  
-  # Disable line-length and truthy values reporting 
+
+  # Disable line-length and truthy values reporting
   line-length: disable
   truthy: disable
 

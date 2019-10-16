@@ -1,22 +1,15 @@
 ---
 
 language: python
-python: "2.7"
+python:
+  - "2.7"
+  - "3.6"
 
 sudo: required
 
 # Enable the docker service
 services:
   - docker
-
-env:
-  # Use the docker driver for tests
-  global:
-    - MOLECULE_DRIVER_NAME=docker
-  # Enable matrix builds
-  matrix:
-    - MOLECULE_TARGET_DISTRO=centos
-    - MOLECULE_TARGET_DISTRO=ubuntu
 
 # Replace aufs with the vfs docker storage driver
 # to prevent systemd to fail starting docker in docker.
@@ -25,13 +18,20 @@ before_install:
   - sudo service docker restart
   - docker info
 
-# Install molecule
+# Install molecule and docker-py
 install:
-  - pip install -r test-requirements.txt
+  - pip install tox-travis
+
+# Parallel testing of the supported Ansible versions
+env:
+  matrix:
+    - ANSIBLE=2.6
+    - ANSIBLE=2.7
+    - ANSIBLE=2.8
 
 # Tests all the scenarios
 script:
-  - molecule test
+  - tox
 
 notifications:
   webhooks: https://galaxy.ansible.com/api/v1/notifications/
